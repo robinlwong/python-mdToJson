@@ -1,7 +1,20 @@
+"""
+md_to_json_colab.py - Convert Markdown to Jupyter Notebook (.ipynb)
+
+Usage:
+    python md_to_json_colab.py input.md output.ipynb
+    
+Or import as a module:
+    from md_to_json_colab import md_to_json_colab
+    md_to_json_colab('input.md', 'output.ipynb')
+"""
+
 import json
 import re
+import sys
+import argparse
 
-def mdtojson_colab(md_filepath, ipynb_filepath):
+def md_to_json_colab(md_filepath, ipynb_filepath):
     with open(md_filepath, 'r', encoding='utf-8') as file:
         lines = file.readlines()
 
@@ -51,5 +64,32 @@ def mdtojson_colab(md_filepath, ipynb_filepath):
 
     print(f"Success! Notebook generated at: {ipynb_filepath}")
 
-# Example usage (uncomment to run):
-# mdtojson_colab('input.md', 'output.ipynb')
+def main():
+    """CLI entry point"""
+    parser = argparse.ArgumentParser(
+        description='Convert Markdown to Jupyter Notebook (.ipynb)',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python md_to_json_colab.py document.md notebook.ipynb
+  python md_to_json_colab.py notes.md colab_notes.ipynb
+  
+The output .ipynb file can be opened directly in Google Colab.
+        """
+    )
+    parser.add_argument('input', help='Input Markdown file (.md)')
+    parser.add_argument('output', help='Output Jupyter Notebook file (.ipynb)')
+    
+    args = parser.parse_args()
+    
+    try:
+        md_to_json_colab(args.input, args.output)
+    except FileNotFoundError:
+        print(f"Error: Input file '{args.input}' not found")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error: {e}")
+        sys.exit(1)
+
+if __name__ == '__main__':
+    main()

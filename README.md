@@ -1,4 +1,4 @@
-# python-mdToJson
+# md-to-json
 
 **Convert Markdown files to structured JSON formats**
 
@@ -12,6 +12,8 @@ A lightweight Python utility for parsing Markdown documents into structured JSON
 
 - **Hierarchical JSON Export** - Preserves document structure with nested sections
 - **Jupyter Notebook Export** - Converts Markdown to Colab-ready notebooks
+- **CLI Support** - Run directly from command line
+- **Module Import** - Use as a library in your Python code
 - **Whitespace Agnostic** - Handles varying formatting styles
 - **Preserves Content** - Maintains paragraph breaks and formatting
 
@@ -19,15 +21,29 @@ A lightweight Python utility for parsing Markdown documents into structured JSON
 
 ## 🚀 Quick Start
 
-### 1. Hierarchical JSON Export (`mdToJson.py`)
+### Installation
 
-Converts Markdown to nested JSON structure.
+```bash
+git clone https://github.com/robinlwong/md-to-json.git
+cd md-to-json
+```
 
-**Usage:**
+No external dependencies required - uses Python standard library only.
+
+---
+
+### 1. Hierarchical JSON Export
+
+**CLI Usage:**
+```bash
+python md_to_json.py input.md output.json
+```
+
+**Python Module:**
 ```python
-from mdToJson import mdtojson
+from md_to_json import md_to_json
 
-mdtojson('input.md', 'output.json')
+md_to_json('input.md', 'output.json')
 ```
 
 **Output Structure:**
@@ -58,15 +74,18 @@ mdtojson('input.md', 'output.json')
 
 ---
 
-### 2. Jupyter Notebook Export (`mdToJson-colab.py`)
+### 2. Jupyter Notebook Export
 
-Converts Markdown to Google Colab-compatible `.ipynb` format.
+**CLI Usage:**
+```bash
+python md_to_json_colab.py input.md output.ipynb
+```
 
-**Usage:**
+**Python Module:**
 ```python
-from mdToJson_colab import mdtojson_colab
+from md_to_json_colab import md_to_json_colab
 
-mdtojson_colab('input.md', 'output.ipynb')
+md_to_json_colab('input.md', 'output.ipynb')
 ```
 
 **Output:** 
@@ -85,65 +104,87 @@ mdtojson_colab('input.md', 'output.ipynb')
 
 ## 📁 File Overview
 
-| File | Purpose | Output Format |
-|------|---------|---------------|
-| `mdToJson.py` | Hierarchical JSON converter | `.json` with nested structure |
-| `mdToJson-colab.py` | Jupyter Notebook converter | `.ipynb` (Colab-compatible) |
+| File | Purpose | CLI Usage | Module Import |
+|------|---------|-----------|---------------|
+| `md_to_json.py` | Hierarchical JSON converter | `python md_to_json.py input.md output.json` | `from md_to_json import md_to_json` |
+| `md_to_json_colab.py` | Jupyter Notebook converter | `python md_to_json_colab.py input.md output.ipynb` | `from md_to_json_colab import md_to_json_colab` |
+| `example.md` | Sample document for testing | - | - |
 
 ---
 
-## 🔧 Installation
+## 🔧 Requirements
 
-**Requirements:**
-- Python 3.6+
-- Standard library only (no external dependencies)
+**Python Version:** 3.6+
 
-**Clone the repository:**
-```bash
-git clone https://github.com/robinlwong/python-mdToJson.git
-cd python-mdToJson
-```
+**Dependencies:** None (standard library only)
+
+**Tested On:**
+- Python 3.8
+- Python 3.10
+- Python 3.12
 
 ---
 
 ## 📖 Usage Examples
 
-### Example 1: Convert Documentation to JSON
+### Example 1: CLI - Convert Documentation
 
-```python
-from mdToJson import mdtojson
+```bash
+# Convert project docs to JSON
+python md_to_json.py PROJECT_DOCS.md docs_structured.json
 
-# Convert project documentation
-mdtojson('PROJECT_DOCS.md', 'docs_structured.json')
+# Convert to Jupyter Notebook
+python md_to_json_colab.py TUTORIAL.md tutorial.ipynb
 ```
 
-**Use Cases:**
-- API documentation parsing
-- Knowledge base structuring
-- Content management systems
-- Search indexing
-
----
-
-### Example 2: Import to Google Colab
+### Example 2: Python Module - Batch Processing
 
 ```python
-from mdToJson_colab import mdtojson_colab
+from md_to_json import md_to_json
+import os
 
-# Convert notes to Colab notebook
-mdtojson_colab('research_notes.md', 'research.ipynb')
+# Convert all .md files in a directory
+for filename in os.listdir('docs/'):
+    if filename.endswith('.md'):
+        input_path = os.path.join('docs', filename)
+        output_path = os.path.join('output', filename.replace('.md', '.json'))
+        md_to_json(input_path, output_path)
+        print(f"Converted: {filename}")
 ```
 
-**Then:**
-1. Upload `research.ipynb` to Google Drive
-2. Open with Google Colab
-3. Each H1/H2 appears as a collapsible section
+### Example 3: Integration with Data Pipeline
 
-**Use Cases:**
-- Research notes organization
-- Tutorial creation
-- Educational content
-- Long-form documentation
+```python
+from md_to_json import md_to_json
+import json
+
+# Convert markdown to JSON
+md_to_json('research_notes.md', 'structured.json')
+
+# Load and process the structured data
+with open('structured.json', 'r') as f:
+    data = json.load(f)
+    
+# Extract all H2 headers
+h2_headers = []
+for section in data:
+    for subsection in section['subsections']:
+        h2_headers.append(subsection['header'])
+
+print(f"Found {len(h2_headers)} subsections")
+```
+
+### Example 4: Google Colab Workflow
+
+```bash
+# Convert notes to notebook
+python md_to_json_colab.py research_notes.md research.ipynb
+
+# Upload to Google Drive, then:
+# 1. Right-click research.ipynb in Google Drive
+# 2. Open with → Google Colab
+# 3. All H1/H2 headers become collapsible sections
+```
 
 ---
 
@@ -192,6 +233,38 @@ mdtojson_colab('research_notes.md', 'research.ipynb')
 - Only H1 and H2 levels supported
 - H3+ headers treated as regular content
 
+**File Paths:**
+- Relative paths work from current directory
+- Use absolute paths if running from different location
+
+---
+
+## 🎓 CLI Help
+
+**Get help:**
+```bash
+python md_to_json.py --help
+python md_to_json_colab.py --help
+```
+
+**Example output:**
+```
+usage: md_to_json.py [-h] input output
+
+Convert Markdown to hierarchical JSON
+
+positional arguments:
+  input       Input Markdown file (.md)
+  output      Output JSON file (.json)
+
+optional arguments:
+  -h, --help  show this help message and exit
+
+Examples:
+  python md_to_json.py document.md output.json
+  python md_to_json.py notes.md structured_notes.json
+```
+
 ---
 
 ## 🤝 Contributing
@@ -200,11 +273,13 @@ mdtojson_colab('research_notes.md', 'research.ipynb')
 
 **Improvements?** Submit a pull request.
 
-**Use cases:**
-- Add H3+ support
-- Custom JSON schema options
-- Batch processing
-- CLI interface
+**Potential enhancements:**
+- [ ] H3+ support (deeper nesting)
+- [ ] Custom JSON schema options
+- [ ] Batch processing CLI flag
+- [ ] Progress bar for large files
+- [ ] YAML/TOML output formats
+- [ ] Markdown-to-Markdown reformatter
 
 ---
 
@@ -227,5 +302,18 @@ MIT License - See LICENSE file for details
 
 ---
 
+## 🏷️ Naming Convention
+
+**Repository:** `md-to-json` (kebab-case)  
+**Python files:** `md_to_json.py` (snake_case)  
+**Functions:** `md_to_json()` (snake_case)
+
+This follows Python naming conventions (PEP 8):
+- Modules/files: lowercase with underscores
+- Functions: lowercase with underscores
+- Repository: kebab-case (GitHub standard)
+
+---
+
 **Maintained by:** Robin Wong  
-**Repository:** https://github.com/robinlwong/python-mdToJson
+**Repository:** https://github.com/robinlwong/md-to-json

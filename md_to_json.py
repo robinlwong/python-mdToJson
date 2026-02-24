@@ -1,7 +1,20 @@
+"""
+md_to_json.py - Convert Markdown to hierarchical JSON
+
+Usage:
+    python md_to_json.py input.md output.json
+    
+Or import as a module:
+    from md_to_json import md_to_json
+    md_to_json('input.md', 'output.json')
+"""
+
 import json
 import re
+import sys
+import argparse
 
-def mdtojson(md_filepath, json_filepath):
+def md_to_json(md_filepath, json_filepath):
     # Read the lengthy markdown file
     with open(md_filepath, 'r', encoding='utf-8') as file:
         lines = file.readlines()
@@ -63,5 +76,30 @@ def mdtojson(md_filepath, json_filepath):
         
     print(f"Success! Converted to nested JSON: {json_filepath}")
 
-# Example usage (uncomment to run):
-# mdtojson('input.md', 'output.json')
+def main():
+    """CLI entry point"""
+    parser = argparse.ArgumentParser(
+        description='Convert Markdown to hierarchical JSON',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python md_to_json.py document.md output.json
+  python md_to_json.py notes.md structured_notes.json
+        """
+    )
+    parser.add_argument('input', help='Input Markdown file (.md)')
+    parser.add_argument('output', help='Output JSON file (.json)')
+    
+    args = parser.parse_args()
+    
+    try:
+        md_to_json(args.input, args.output)
+    except FileNotFoundError:
+        print(f"Error: Input file '{args.input}' not found")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error: {e}")
+        sys.exit(1)
+
+if __name__ == '__main__':
+    main()
