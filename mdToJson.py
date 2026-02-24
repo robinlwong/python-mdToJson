@@ -1,7 +1,7 @@
 import json
 import re
 
-def markdown_to_nested_json(md_filepath, json_filepath):
+def mddtojson(md_filepath, json_filepath):
     # Read the lengthy markdown file
     with open(md_filepath, 'r', encoding='utf-8') as file:
         lines = file.readlines()
@@ -65,4 +65,4 @@ def markdown_to_nested_json(md_filepath, json_filepath):
 
 # Execution
 # Replace 'input.md' and 'output.json' with your actual file paths
-markdown_to_nested_json('input.md', 'output.json')
+mdtojson('input.md', 'output.json')
