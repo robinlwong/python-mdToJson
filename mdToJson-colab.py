@@ -51,6 +51,5 @@ def mdtojson_colab(md_filepath, ipynb_filepath):
 
     print(f"Success! Notebook generated at: {ipynb_filepath}")
 
-# Execution
-# Replace 'input.md' and 'output.ipynb' with your actual file paths
-mdtojson_colab('input.md', 'output.ipynb')
+# Example usage (uncomment to run):
+# mdtojson_colab('input.md', 'output.ipynb')

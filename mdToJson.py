@@ -63,6 +63,5 @@ def mdtojson(md_filepath, json_filepath):
         
     print(f"Success! Converted to nested JSON: {json_filepath}")
 
-# Execution
-# Replace 'input.md' and 'output.json' with your actual file paths
-mdtojson('input.md', 'output.json')
+# Example usage (uncomment to run):
+# mdtojson('input.md', 'output.json')
