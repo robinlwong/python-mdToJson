@@ -1,7 +1,7 @@
 import json
 import re
 
-def mdtojson-colab(md_filepath, ipynb_filepath):
+def mdtojson_colab(md_filepath, ipynb_filepath):
     with open(md_filepath, 'r', encoding='utf-8') as file:
         lines = file.readlines()
 
@@ -53,4 +53,4 @@ def mdtojson-colab(md_filepath, ipynb_filepath):
 
 # Execution
 # Replace 'input.md' and 'output.ipynb' with your actual file paths
-mdtojson-colab('input.md', 'output.ipynb')
+mdtojson_colab('input.md', 'output.ipynb')

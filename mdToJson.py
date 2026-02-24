@@ -1,7 +1,7 @@
 import json
 import re
 
-def mddtojson(md_filepath, json_filepath):
+def mdtojson(md_filepath, json_filepath):
     # Read the lengthy markdown file
     with open(md_filepath, 'r', encoding='utf-8') as file:
         lines = file.readlines()
